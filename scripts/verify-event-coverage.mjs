@@ -1,0 +1,158 @@
+#!/usr/bin/env node
+// "Nothing missed" check for the ZK → React migration.
+//
+//  1. Every .zul file of the legacy app has a row in docs/migration/mapping.mjs (zul).
+//  2. Every legacy event source (@Listen, addEventListener, zul on*="", clickable href, button/menuitem/a with id)
+//     has a row in mapping.mjs (events), and no mapping row is stale.
+//  3. Every React reference "path#symbol" points at an existing file that contains the symbol text.
+//  4. Statuses other than Dropped/Static must have a React reference.
+//  5. With --write, regenerates docs/migration/ZUL_MAPPING.md and docs/migration/EVENTS.md.
+//
+// Usage: node scripts/verify-event-coverage.mjs [--write]      (LEGACY_ROOT overrides the legacy src/main folder)
+import fs from 'node:fs';
+import path from 'node:path';
+import { extractLegacyEvents, listZulFiles, LEGACY_ROOT } from './legacy-events.mjs';
+import { events as eventMap, javaOwner, javaOwnerByPath, zul as zulMap } from '../docs/migration/mapping.mjs';
+
+const ROOT = path.resolve(import.meta.dirname, '..');
+const STATUSES = new Set(['Migrated', 'Fixed', 'New', 'Merged', 'Static', 'Dropped']);
+const errors = [];
+const err = (m) => errors.push(m);
+
+if (!fs.existsSync(LEGACY_ROOT)) {
+  console.error(`Legacy source not found at ${LEGACY_ROOT} (set LEGACY_ROOT).`);
+  process.exit(2);
+}
+
+// ---------------------------------------------------------------- 1. zul coverage
+const zulFiles = listZulFiles();
+for (const z of zulFiles) if (!zulMap[z]) err(`zul without mapping: ${z}`);
+for (const z of Object.keys(zulMap)) if (!zulFiles.includes(z)) err(`mapping for unknown zul: ${z}`);
+
+// ---------------------------------------------------------------- 2. event coverage
+const legacy = extractLegacyEvents();
+const legacyKeys = new Set(legacy.map((e) => e.key));
+for (const e of legacy) if (!eventMap[e.key]) err(`event without mapping: ${e.key}  [${e.kind}] ${e.detail}`);
+for (const k of Object.keys(eventMap)) if (!legacyKeys.has(k)) err(`stale mapping (no such legacy event): ${k}`);
+
+// ---------------------------------------------------------------- 3/4. React references
+const fileCache = new Map();
+function checkRef(ref, where) {
+  if (!ref) return;
+  const i = ref.indexOf('#');
+  const file = i < 0 ? ref : ref.slice(0, i);
+  const symbol = i < 0 ? '' : ref.slice(i + 1);
+  const abs = path.join(ROOT, file);
+  if (!fileCache.has(abs)) fileCache.set(abs, fs.existsSync(abs) ? fs.readFileSync(abs, 'utf8') : null);
+  const text = fileCache.get(abs);
+  if (text === null) return err(`${where}: React file not found: ${file}`);
+  if (symbol && !text.includes(symbol)) err(`${where}: "${symbol}" not found in ${file}`);
+}
+for (const [z, [, ref, status]] of Object.entries(zulMap)) {
+  if (!STATUSES.has(status)) err(`zul ${z}: unknown status ${status}`);
+  if (!['Dropped', 'Static'].includes(status) && !ref) err(`zul ${z}: status ${status} needs a React target`);
+  checkRef(ref, `zul ${z}`);
+}
+for (const [k, [ref, status]] of Object.entries(eventMap)) {
+  if (!STATUSES.has(status)) err(`event ${k}: unknown status ${status}`);
+  if (!['Dropped', 'Static'].includes(status) && !ref) err(`event ${k}: status ${status} needs a React target`);
+  checkRef(ref, `event ${k}`);
+}
+
+// ---------------------------------------------------------------- owner of each event (for grouping)
+function ownerOf(e) {
+  if (e.kind === 'Listen' || e.kind === 'addEventListener') {
+    const owner = javaOwnerByPath[e.file] ?? javaOwner[path.basename(e.file)];
+    if (!owner) err(`no owning zul for ${e.file}`);
+    return owner ?? '(unknown)';
+  }
+  return e.file;
+}
+
+// ---------------------------------------------------------------- report / docs
+const counts = {};
+for (const e of legacy) {
+  const st = eventMap[e.key]?.[1] ?? 'UNMAPPED';
+  counts[st] = (counts[st] ?? 0) + 1;
+}
+const zulCounts = {};
+for (const z of zulFiles) {
+  const st = zulMap[z]?.[2] ?? 'UNMAPPED';
+  zulCounts[st] = (zulCounts[st] ?? 0) + 1;
+}
+
+if (process.argv.includes('--write')) writeDocs();
+
+console.log(`zul files: ${zulFiles.length}  ${fmt(zulCounts)}`);
+console.log(`legacy event sources: ${legacy.length}  ${fmt(counts)}`);
+if (errors.length) {
+  console.error(`\n${errors.length} problem(s):`);
+  for (const e of errors) console.error('  - ' + e);
+  process.exit(1);
+}
+console.log('OK: every zul page and every legacy event is mapped, and every React reference resolves.');
+
+function fmt(c) {
+  return Object.entries(c).sort().map(([k, v]) => `${k}=${v}`).join(' ');
+}
+
+function link(ref) {
+  if (!ref) return '—';
+  const [file, sym] = ref.split('#');
+  const short = file.replace('frontend/src/', '');
+  return sym ? `\`${short}\` · \`${sym.replace(/`/g, "'").replace(/\|/g, '\\|')}\`` : `\`${short}\``;
+}
+function esc(s) {
+  return String(s ?? '').replace(/\|/g, '\\|').replace(/\n/g, ' ');
+}
+
+function writeDocs() {
+  const out = path.join(ROOT, 'docs', 'migration');
+  // ZUL_MAPPING.md
+  let md = `# ZUL → React mapping\n\n_Generated by \`node scripts/verify-event-coverage.mjs --write\` from \`docs/migration/mapping.mjs\`. Do not edit by hand._\n\n`;
+  md += `${zulFiles.length} zul files: ${fmt(zulCounts)}.\n\n`;
+  md += `| # | zul | Controller / init | React | Status | Notes | Events |\n|---|---|---|---|---|---|---|\n`;
+  const byOwner = groupEvents();
+  zulFiles.forEach((z, i) => {
+    const [ctl, ref, st, note] = zulMap[z] ?? ['', '', 'UNMAPPED', ''];
+    const n = byOwner.get(z)?.length ?? 0;
+    md += `| ${i + 1} | \`${z}\` | ${esc(ctl)} | ${link(ref)} | **${st}** | ${esc(note)} | ${n ? `[${n}](EVENTS.md#${anchor(z)})` : '0'} |\n`;
+  });
+  fs.writeFileSync(path.join(out, 'ZUL_MAPPING.md'), md);
+
+  // EVENTS.md
+  let ev = `# UI events per zul page\n\n_Generated by \`node scripts/verify-event-coverage.mjs --write\` from the legacy source and \`docs/migration/mapping.mjs\`. Do not edit by hand._\n\n`;
+  ev += `Every \`@Listen\`, \`addEventListener\`, zul \`on*=\` attribute, clickable \`href\` and \`button\`/\`menuitem\`/\`a\` with an id in the legacy app is listed below (${legacy.length} sources: ${fmt(counts)}).\n`;
+  ev += `Tick the box after checking the behaviour in the running React app.\n\n`;
+  ev += `Kinds: **Listen** = \`@Listen\` in the controller · **listener** = \`addEventListener\` in a controller/renderer · **zul** = event attribute in the page · **href** = link · **control** = clickable component with an id (listed so buttons without any handler are not missed).\n\n`;
+  const kinds = { Listen: 'Listen', addEventListener: 'listener', zulAttr: 'zul', href: 'href', control: 'control' };
+  for (const z of [...byOwner.keys()].sort()) {
+    ev += `## ${z}\n\n`;
+    const zm = zulMap[z];
+    if (zm) ev += `${zm[0]} → ${link(zm[1])} (**${zm[2]}**)\n\n`;
+    ev += `| ✓ | Kind | Legacy source | Component / event | React | Status | Behaviour |\n|---|---|---|---|---|---|---|\n`;
+    for (const e of byOwner.get(z)) {
+      const [ref, st, note] = eventMap[e.key] ?? ['', 'UNMAPPED', ''];
+      const src = e.kind === 'control' || e.kind === 'href' || e.kind === 'zulAttr' ? `\`${e.file}:${e.line}\`` : `\`${e.file.split('/').pop()}:${e.line}\``;
+      const check = st === 'Dropped' || st === 'Static' ? '–' : '[ ]';
+      ev += `| ${check} | ${kinds[e.kind]} | ${src} | ${esc('`' + e.detail.replace(/`/g, "'").slice(0, 90) + '`')} | ${link(ref)} | **${st}** | ${esc(note)} |\n`;
+    }
+    ev += '\n';
+  }
+  fs.writeFileSync(path.join(out, 'EVENTS.md'), ev);
+}
+
+function groupEvents() {
+  const m = new Map();
+  for (const e of legacy) {
+    const o = ownerOf(e);
+    if (!m.has(o)) m.set(o, []);
+    m.get(o).push(e);
+  }
+  for (const list of m.values()) list.sort((a, b) => (a.file === b.file ? a.line - b.line : a.file.localeCompare(b.file)));
+  return m;
+}
+
+function anchor(s) {
+  return s.toLowerCase().replace(/[^a-z0-9 _-]/g, '').replace(/ /g, '-');
+}

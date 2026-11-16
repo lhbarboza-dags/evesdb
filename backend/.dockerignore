@@ -1,0 +1,6 @@
+# Only the built jar is needed from target/ (runtime-only Dockerfile).
+target/*
+!target/sibol-eves-api.jar
+.idea
+*.iml
+.env*

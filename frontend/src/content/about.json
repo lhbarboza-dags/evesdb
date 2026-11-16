@@ -1,0 +1,66 @@
+[
+ {
+  "tag": "h2",
+  "text": "About the SIBOL-EVES Database",
+  "links": []
+ },
+ {
+  "tag": "p",
+  "text": "The SIBOL-EVES database is a searchable inventory of summaries of empirical studies on the economic valuation of ecosystem services conducted in the Philippines and comparable sites in South East Asian countries. The database was developed to provide support for natural capital accounting, in particular, the creation of monetary ecosystem asset accounts in the Philippines.",
+  "links": []
+ },
+ {
+  "tag": "h5",
+  "text": "Purpose",
+  "links": []
+ },
+ {
+  "tag": "li",
+  "text": "Organize empirical estimates of ecosystem service values at sub-national and national ecosystem levels in the Philippines and comparable sites in Southeast Asian countries.",
+  "links": []
+ },
+ {
+  "tag": "li",
+  "text": "Provide information for implementing the benefits-transfer method, which allows the estimation of ecosystem service values in areas lacking primary valuation studies.",
+  "links": []
+ },
+ {
+  "tag": "li",
+  "text": "Serve as a source of motivation to continue conducting site-level work, based on a typology of sites according to High Conservation Value Areas (HCVAs) and priority issues.",
+  "links": []
+ },
+ {
+  "tag": "p",
+  "text": "By fulfilling these functions, the SIBOL-EVES database aims to enhance understanding and decision-making related to ecosystem services, their values, and conservation efforts in various contexts.",
+  "links": []
+ },
+ {
+  "tag": "h5",
+  "text": "Type of Information",
+  "links": []
+ },
+ {
+  "tag": "p",
+  "text": "For data management, the database includes the name of the researcher who captured the study, the reviewer's name, and the corresponding dates of entry and review. The organization of data into these categories in the SIBOL-EVES database facilitates the selection of values for benefits transfer and ensures comprehensive information management.",
+  "links": []
+ },
+ {
+  "tag": "h5",
+  "text": "Link to major ecosystem service valuation databases:",
+  "links": []
+ },
+ {
+  "tag": "p",
+  "text": "The SIBOL-EVES database complements existing valuation databases, such as the Environmental Valuation Reference Inventory (EVRI) by Environment Canada (  https://evri.ca/en  ) and the Ecosystem Services Valuation Database (ESVD), formerly known as the TEEB Valuation Database (  https://www.esvd.net/  ). These databases serve as repositories of environmental valuation studies from around the world. The SIBOL-EVES database builds upon the foundation established by these existing databases to provide a specific focus on empirical studies related to ecosystem service valuation in the Philippines and comparable international sites in Southeast Asia. It enhances the availability of information and contributes to the broader understanding of ecosystem services and their economic value.",
+  "links": [
+   {
+    "text": "https://evri.ca/en",
+    "href": "https://evri.ca/en"
+   },
+   {
+    "text": "https://www.esvd.net/",
+    "href": "https://www.esvd.net/"
+   }
+  ]
+ }
+]

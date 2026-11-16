@@ -1,0 +1,3 @@
+# dist/ is copied by the runtime-only Dockerfile; node_modules is never needed in the context.
+node_modules
+.env*

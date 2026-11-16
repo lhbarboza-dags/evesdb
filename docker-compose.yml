@@ -1,0 +1,25 @@
+# SIBOL-EVES (React + Spring Boot). Uses the EXISTING PostgreSQL database (no DB container).
+# 1. cp .env.example .env   and fill in the values
+# 2. ./scripts/build.sh      (builds the jar and the React bundle on the host; the images only copy them)
+# 3. docker compose up --build
+# 4. open http://localhost:8080
+# On a machine where Docker builds can reach Maven Central / npm you can skip step 2 by setting
+#   dockerfile: Dockerfile.multistage   under each service's build:
+services:
+  backend:
+    build: ./backend
+    # All settings come from .env only. (No `environment:` interpolation here on purpose: a SPRING_DATASOURCE_URL
+    # exported in your shell, e.g. by ~/.bashrc for another project, would otherwise override .env.)
+    env_file: .env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"   # reach Postgres running on the Docker host
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped

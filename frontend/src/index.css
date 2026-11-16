@@ -1,0 +1,5 @@
+/* Tailwind. preflight is disabled in tailwind.config.js, so @tailwind base emits ONLY the --tw-* variable defaults
+   (needed by gradients, shadows, rings, blur, transforms) and no element resets — MUI keeps its own baseline. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

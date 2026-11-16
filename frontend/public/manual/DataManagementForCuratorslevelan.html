@@ -1,0 +1,524 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="generator" content="HelpNDoc Personal Edition 8.9.0.604">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="favicon.ico"/>
+
+  <title>Data Management (For Curators level and above acess only)</title>
+  <meta name="description" content="" /> 
+  <meta name="keywords" content="">
+
+
+
+  
+  
+
+  <!-- Twitter Card data -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Data Management (For Curators level and above acess only)">
+  <meta name="twitter:description" content="">
+
+  <!-- Open Graph data -->
+  <meta property="og:title" content="Data Management (For Curators level and above acess only)" />
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="" />
+  <meta property="og:site_name" content="SIBOL-EVES Database Manual" /> 
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendors/bootstrap-3.4.1/css/bootstrap.min.css" rel="stylesheet"/>
+
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <link href="vendors/bootstrap-3.4.1/css/ie10-viewport-bug-workaround.css" rel="stylesheet"/>
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+      <script src="vendors/html5shiv-3.7.3/html5shiv.min.js"></script>
+      <script src="vendors/respond-1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+  <!-- JsTree styles -->
+  <link href="vendors/jstree-3.3.10/themes/default/style.min.css" rel="stylesheet"/>
+
+  <!-- Hnd styles -->
+  <link href="css/layout.min.css" rel="stylesheet" />
+  <link href="css/effects.min.css" rel="stylesheet" />
+  <link href="css/theme-light-blue.min.css" rel="stylesheet" />
+  <link href="css/print.min.css" rel="stylesheet" media="print" />
+  <style type="text/css">nav { width: 350px} @media screen and (min-width:769px) { body.md-nav-expanded div#main { margin-left: 350px} body.md-nav-expanded header { padding-left: 364px} }</style>
+  <style type="text/css">.navigation #inline-toc { width: auto !important}</style>
+
+  <!-- Content style -->
+  <link href="css/hnd.content.css" rel="stylesheet" />
+
+  
+
+
+
+</head>
+
+<body class="md-nav-expanded">
+
+
+
+  
+
+  <div id="skip-link">
+    <a href="#main-content" class="element-invisible">Skip to main content</a>
+  </div>
+
+  <header class="headroom">
+    <button class="hnd-toggle btn btn-default">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>        
+    </button>
+    <h1>SIBOL-EVES Database Manual</h1>
+    
+  </header>
+
+  <nav id="panel-left" class="md-nav-expanded">
+    <!-- Nav tabs -->
+    <ul class="tab-tabs nav nav-tabs" role="tablist">
+      <li id="nav-close" role="presentation"> 
+        <button class="hnd-toggle btn btn-default" aria-label="close">
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        </button>
+      </li>
+      
+	  
+        <li role="presentation" class="tab active">
+            <a href="#contents" id="tab-contents" aria-controls="contents" role="tab" data-toggle="tab">
+                <i class="glyphicon glyphicon-list"></i>
+                Contents
+            </a>
+        </li>
+      
+        <li role="presentation" class="tab">
+            <a href="#index" id="tab-index" aria-controls="index" role="tab" data-toggle="tab">
+                <i class="glyphicon glyphicon-asterisk"></i>
+                Index
+            </a>
+        </li>
+      
+        <li role="presentation" class="tab">
+            <a href="#search" id="tab-search" aria-controls="search" role="tab" data-toggle="tab">
+                <i class="glyphicon glyphicon-search"></i>
+                Search
+            </a>
+        </li>
+      
+    </ul>  <!-- /Nav tabs -->
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+	  
+      <div role="tabpanel" class="tab-pane active" id="contents">
+        <div id="toc" class="tree-container unselectable"
+            data-url="_toc.json"
+            data-openlvl="1"
+        >
+            
+        </div>
+      </div>  <!-- /contents-->
+      
+      <div role="tabpanel" class="tab-pane" id="index">
+        <div id="keywords" class="tree-container unselectable"
+            data-url="_keywords.json"
+            data-openlvl="1"
+        >
+            
+        </div>
+      </div>  <!-- /index-->
+      
+      <div role="tabpanel" class="tab-pane" id="search">
+        <div class="search-content">
+          <div class="search-input">
+            <form id="search-form">
+              <div class="form-group">
+                <div class="input-group">
+                  <input type="text" class="form-control" id="input-search" name="input-search" placeholder="Search..." aria-label="Search..." />
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit" aria-label="Search...">
+                      <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </button>
+                  </span>
+                </div>
+              </div>
+            </form>
+          </div>  <!-- /search-input -->
+          <div class="search-result">
+            <div id="search-info"></div>
+            <div class="tree-container unselectable" id="search-tree"></div>
+          </div>  <!-- /search-result -->
+        </div>  <!-- /search-content -->
+      </div>  <!-- /search-->
+      
+    </div>  <!-- /Tab panes -->
+
+  </nav>
+
+  <div id="main">
+
+    <article>
+        <div id="topic-content" class="container-fluid" 
+		  data-hnd-id="DataManagementForCuratorslevelan"
+		  data-hnd-context="15"
+		  data-hnd-title="Data Management (For Curators level and above acess only)"
+		>
+            
+                <div class="navigation">
+                    <ol class="breadcrumb">
+                        <li><a href="KeyFunctionalities.html">Key Functionalities</a></li>
+                    </ol>
+                    <div class="nav-arrows">
+                        <div class="btn-group btn-group" role="group"><a class="btn btn-default" href="KeyFunctionalities.html" title="Key Functionalities" role="button"><span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span></a><a class="btn btn-default" href="GoogleMapDisplay.html" title="Google Map Display" role="button"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span></a><a class="btn btn-default" href="UserManagement.html" title="User Management" role="button"><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></a></div>
+                    </div>
+                </div> 
+            
+
+            <a id="main-content"></a>
+
+            <h2>Data Management (For Curators level and above acess only)</h2>
+
+            <div class="main-content">
+                
+<h1 class="rvps5"><span class="rvts0"><span class="rvts17">Data Management (For curators level and above access only)</span></span></h1>
+<ol style="text-indent: 0px; padding: 0; margin: 0 0 0 32px; list-style-position: outside; list-style-type: upper-alpha;">
+ <li class="rvps17"><span class="rvts0"><span class="rvts16">Study Content Management&nbsp;</span></span></li>
+</ol>
+<h3 class="rvps18"><span class="rvts0"><span class="rvts36">Add A Study</span></span></h3>
+<p class="rvps15"><span class="rvts15">&nbsp;&nbsp;&nbsp; This feature is only available to curator-level users and is assigned by admin-level users. To request curator-level access or role, email any admin-level user. By default, a registered user is a regular user that can search, export, and query studies. Adding a new study feature</span><br/><span class="rvts15"><br/></span></p>
+<ol style="text-indent: 0px; padding: 0; margin: 0 0 0 32px; list-style-position: outside;">
+ <li class="rvps6"><span class="rvts15">Login to your SIBOL-EVES database account.</span></li>
+ <li class="rvps6"><span class="rvts15">From the menu, select Data Management then Data Entry. This would open a wizard-type form of adding data.</span></li>
+</ol>
+<p class="rvps6"><img width="635" height="365" alt="" src="lib/NewItem59.png"></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<ol style="text-indent: 0px; padding: 0; margin: 0 0 0 32px; list-style-position: outside;">
+ <li value="3" class="rvps6"><span class="rvts15">First step: Adding a Study Source. Fill up the form, adding necessary information about the source of the study. Once finished, click Next.</span></li>
+</ol>
+<p class="rvps16"><span class="rvts15">NOTE:&nbsp;</span></p>
+<ol style="text-indent: 0px; padding: 0; margin: 0 0 0 32px; list-style-position: outside; list-style-type: lower-alpha;">
+ <li class="rvps6"><span class="rvts15">For each input element, tooltip text pops out on mouse hover to give the user additional information about the element.</span></li>
+ <li class="rvps6"><span class="rvts15">Inputs must be valid to proceed to the next step. Otherwise, the user is informed to correct inputs. Some inputs must be correct in format for year, length of string, a number or must be correct decimal format. Below is an example of error checking if input is a valid year.</span></li>
+</ol>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><img width="622" height="357" alt="" src="lib/NewItem58.png"></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<ol style="text-indent: 0px; padding: 0; margin: 0 0 0 32px; list-style-position: outside;">
+ <li value="4" class="rvps6"><span class="rvts15">Second Step: Adding Site and Valuation</span></li>
+ <ol style="text-indent: 0px; padding: 0; margin: 0 0 0 32px; list-style-position: outside; list-style-type: lower-alpha;">
+  <li class="rvps6"><span class="rvts15">Adding Single/Multiple sites to a Study.</span></li>
+ </ol>
+</ol>
+<p class="rvps6"><span class="rvts15">1. To add a single or multiple site/s, click Add.&nbsp;</span></p>
+<p class="rvps6"><img width="631" height="362" alt="" src="lib/NewItem57.png"></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15">2. A pop-up window will appear which contains 3 tabs (Site, Country Info, and Attributes). (see images below of the 3 tabs) Enter the required values for all tabs then click Save to save site values. Click Cancel otherwise.&nbsp;</span></p>
+<ul style="text-indent: 0px; padding: 0; margin: 0 0 0 32px; list-style-position: outside; list-style-type: disc;">
+ <li class="rvps6"><span class="rvts15">Site information</span></li>
+</ul>
+<p class="rvps6"><img width="637" height="366" alt="" src="lib/NewItem56.png"></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<ul style="text-indent: 0px; padding: 0; margin: 0 0 0 32px; list-style-position: outside; list-style-type: disc;">
+ <li class="rvps6"><span class="rvts15">Country Information. Select Country and other details will automatically be filled out. If country does not exist, add Country to Controlled vocabulary for country.</span></li>
+</ul>
+<p class="rvps6"><img width="485" height="372" alt="" src="lib/NewItem55.png"></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<ul style="text-indent: 0px; padding: 0; margin: 0 0 0 32px; list-style-position: outside; list-style-type: disc;">
+ <li class="rvps6"><span class="rvts15">Site Attributes. For pull-down boxes, any new values should be added in the Controlled vocabulary.</span></li>
+</ul>
+<p class="rvps6"><img width="485" height="368" alt="" src="lib/NewItem54.png"></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15">Repeat this step 1 and 2 to add a new site again.&nbsp;</span></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<ol style="text-indent: 0px; padding: 0; margin: 0 0 0 32px; list-style-position: outside; list-style-type: lower-alpha;">
+ <li value="2" class="rvps6"><span class="rvts15">Adding Single/Multiple valuations to a specific site.</span></li>
+ <ol style="text-indent: 0px; padding: 0; margin: 0 0 0 32px; list-style-position: outside; list-style-type: lower-roman;">
+  <li class="rvps6"><span class="rvts15">To add a single or multiple site/s, click the add valuation button on the row of the desired site.&nbsp;</span></li>
+ </ol>
+</ol>
+<p class="rvps6"><img width="533" height="174" alt="" src="lib/NewItem53.png"></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15">A pop-up window containing 2 tabs will appear. These are the 2 tabs:</span></p>
+<ol style="text-indent: 0px; padding: 0; margin: 0 0 0 32px; list-style-position: outside;">
+ <li class="rvps6"><span class="rvts15">Study Focus, Methods, and Values &lt;numberOfAddedValuation&gt; tab</span></li>
+ <ol style="text-indent: 0px; padding: 0; margin: 0 0 0 32px; list-style-position: outside; list-style-type: lower-alpha;">
+  <li class="rvps6"><span class="rvts15">This tab displays the list of Valuations to be added to the site. To add a new valuation, go to add a new tab.</span></li>
+ </ol>
+</ol>
+<p class="rvps6"><img width="469" height="408" alt="" src="lib/NewItem52.png"></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<ol style="text-indent: 0px; padding: 0; margin: 0 0 0 32px; list-style-position: outside;">
+ <li value="2" class="rvps6"><span class="rvts15">Add New tab &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+ <ol style="text-indent: 0px; padding: 0; margin: 0 0 0 32px; list-style-position: outside; list-style-type: lower-alpha;">
+  <li class="rvps6"><span class="rvts15">This tab will show another 3 tabs which correspond to Study Focus, Method, and values. Click on the tabs and enter valuation values.</span></li>
+ </ol>
+</ol>
+<p class="rvps6"><span class="rvts15">1. Add Ecosystem.</span></p>
+<p class="rvps6"><span class="rvts15">&nbsp;&nbsp;&nbsp;</span><img width="629" height="549" alt="" src="lib/NewItem51.png"></p>
+<p class="rvps6"><span class="rvts15">2. Add Valuation Method.</span></p>
+<p class="rvps6"><span class="rvts15">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><img width="629" height="538" alt="" src="lib/NewItem50.png"></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15">3. Add Values</span></p>
+<p class="rvps6"><span class="rvts15">&nbsp; </span><img width="629" height="539" alt="" src="lib/NewItem49.png"></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<ol style="text-indent: 0px; padding: 0; margin: 0 0 0 32px; list-style-position: outside; list-style-type: lower-alpha;">
+ <li value="2" class="rvps6"><span class="rvts15">After entering values for the first valuation and to add more valuation, just click Add.&nbsp;</span></li>
+</ol>
+<p class="rvps6"><img width="469" height="391" alt="" src="lib/NewItem48.png"><br/><span class="rvts15"><br/></span></p>
+<ol style="text-indent: 0px; padding: 0; margin: 0 0 0 32px; list-style-position: outside; list-style-type: lower-alpha;">
+ <li value="3" class="rvps6"><span class="rvts15">Click Save to List when all intended valuations are added to the list.</span></li>
+</ol>
+<p class="rvps6"><img width="626" height="360" alt="" src="lib/NewItem47.png"></p>
+<p class="rvps6"><img width="615" height="353" alt="" src="lib/NewItem46.png"></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+<ol style="text-indent: 0px; padding: 0; margin: 0 0 0 32px; list-style-position: outside; list-style-type: lower-alpha;">
+ <li value="3" class="rvps6"><span class="rvts15">Once finished all sites and valuations to site are added, click Next.</span></li>
+</ol>
+<p class="rvps6"><img width="629" height="308" alt="" src="lib/NewItem45.png"></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<ol style="text-indent: 0px; padding: 0; margin: 0 0 0 32px; list-style-position: outside;">
+ <li value="5" class="rvps6"><span class="rvts15">Third Step: Review Values. Then click Next</span></li>
+</ol>
+<p class="rvps6"><img width="629" height="212" alt="" src="lib/NewItem44.png"></p>
+<ol style="text-indent: 0px; padding: 0; margin: 0 0 0 32px; list-style-position: outside;">
+ <li value="6" class="rvps6"><span class="rvts15">A pop-up confirmation will appear. Click finish to save the study. Otherwise, click cancel.</span></li>
+</ol>
+<p class="rvps6"><img width="629" height="107" alt="" src="lib/NewItem43.png"></p>
+<p class="rvps6"><span class="rvts15"></span><br/><span class="rvts15"></span><br/><span class="rvts15">Edit A Study</span></p>
+<p class="rvps6"><span class="rvts15">This feature allows curators, content managers, and admin to update/edit/correct studies in the database. This is to correct any mistakes committed in the data entry. And also, by default, all curated studies are not displayed and searchable. Content managers or admin need to approve studies first so that it would be viewable and searchable.</span></p>
+<p class="rvps6"><span class="rvts15">To Edit a study:</span></p>
+<ol style="text-indent: 0px; padding: 0; margin: 0 0 0 32px; list-style-position: outside;">
+ <li class="rvps6"><span class="rvts15">Login to Sibol-eves database account.&nbsp;</span></li>
+ <li class="rvps6"><span class="rvts15">Go to Data Management -&gt; Study Entry -&gt; View/Edit Study</span></li>
+</ol>
+<p class="rvps6"><img width="640" height="368" alt="" src="lib/NewItem42.png"></p>
+<ol style="text-indent: 0px; padding: 0; margin: 0 0 0 32px; list-style-position: outside;">
+ <li value="3" class="rvps6"><span class="rvts15">On the result panel, click the row of the desired study to edit. This will open a dialog box shown below. The first tab is for editing source information and the second tab is for editing the actual data.</span></li>
+</ol>
+<p class="rvps6"><span class="rvts15">a. Study Source Tab. Editing values for study sources is straight forward.&nbsp;</span></p>
+<p class="rvps6"><img width="629" height="313" alt="" src="lib/NewItem41.png"></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15">b. Data Tab. This tab lets users edit data within a study. Click on the row to edit.</span></p>
+<p class="rvps6"><img width="533" height="267" alt="" src="lib/NewItem40.png"></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15">1. Add Site.&nbsp; This button opens a dialog box and lets users add additional sites to a study.</span></p>
+<p class="rvps6"><span class="rvts15">2. Add Site Valuation. This button opens a dialog box to let users add additional valuations to that specific site.</span></p>
+<p class="rvps6"><span class="rvts15">3. Delete Site from a study.&nbsp;</span></p>
+<p class="rvps6"><span class="rvts15">4. Delete valuation from site.&nbsp;</span></p>
+<p class="rvps6"><span class="rvts15">5. Open Detail. Collapses and uncollapses detail panel for a specific site.</span></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<ol style="text-indent: 0px; padding: 0; margin: 0 0 0 32px; list-style-position: outside;">
+ <li value="4" class="rvps6"><span class="rvts15">Click Save to save changes, otherwise click Cancel to undo changes made</span></li>
+</ol>
+<p class="rvps6"><span class="rvts15"></span><br/><span class="rvts15"></span><br/><span class="rvts15">Approving a Study</span></p>
+<p class="rvps6"><span class="rvts15">To approve a study, login to Sibol-eves database account. And go to Data Management -&gt; Study Entry -&gt; View/Edit Study</span></p>
+<p class="rvps6"><span class="rvts15">1. Filter. Filter results by "all", "approved", "pending" and "disapproved".&nbsp;</span></p>
+<p class="rvps6"><span class="rvts15">2. Check Box. Tick check box to select/deselect all studies in the display.</span></p>
+<p class="rvps6"><span class="rvts18"></span><br/><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15">2 Ways of Approving a Study</span></p>
+<ol style="text-indent: 0px; padding: 0; margin: 0 0 0 32px; list-style-position: outside;">
+ <li class="rvps6"><span class="rvts15">one by one. Select or open a study by clicking on the row. In the dialog box, choose the status for the selected study as shown in the image below. Then click Save.</span></li>
+</ol>
+<p class="rvps6"><img width="629" height="313" alt="" src="lib/NewItem39.png"></p>
+<ol style="text-indent: 0px; padding: 0; margin: 0 0 0 32px; list-style-position: outside;">
+ <li value="2" class="rvps6"><span class="rvts15">Multiple approval. Select a study by clicking on the checkbox. A button for approval will appear as shown in the image below. Click on the status for the specific study.</span></li>
+</ol>
+<p class="rvps6"><img width="629" height="288" alt="" src="lib/NewItem38.png"></p>
+<p class="rvps6"><span class="rvts15"></span><br/><span class="rvts15">Dictionary or Controlled Vocabulary Management</span></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15">Controlled Vocabulary is organized terms used to describe data on this website which is also used to query, retrieve and browse through contents and data easily and accurately. This vocabulary is managed only by users with a content manager or admin account and can be used for data entry by the curators.</span></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15">Here are some of the controlled vocabulary for this website</span></p>
+<ol style="text-indent: 0px; padding: 0; margin: 0 0 0 32px; list-style-position: outside;">
+ <li class="rvps6"><span class="rvts15">Available Study Info - </span><span class="rvts35">Types of information available from the study (e.g., code documentation, data sets, maps or pictures, questionnaire or questions used, risk assessment or dose-response relationships, description of scenarios or classification schemes, tables)</span></li>
+ <li class="rvps6"><span class="rvts15">Beneficiary Unit - </span><span class="rvts35">The unit used for beneficiaries for which the ES value estimate is reported (e.g., number of visitors/tourists, number of persons, number of households, etc.</span></li>
+ <li class="rvps6"><span class="rvts15">Climate - </span><span class="rvts35">Type of climate in the study site</span></li>
+ <li class="rvps6"><span class="rvts15">Country - </span><span class="rvts35">Name of country or countries where the valuation study was undertaken</span></li>
+ <li class="rvps6"><span class="rvts15">Currency - </span><span class="rvts35">Currency of the reported monetary value (s)</span></li>
+ <li class="rvps6"><span class="rvts15">Document Type - </span><span class="rvts35">The original format of the ES valuation study, e.g., published as an article in a journal, government or non-government report, working paper, conference paper, dissertation/thesis, chapter in a book, magazine, or book.</span></li>
+ <li class="rvps6"><span class="rvts15">Economic measure - </span><span class="rvts35">Type of economic value measure estimated in the study (e.g., consumer surplus, cost of injury, price, willingness-to-pay, etc.)</span></li>
+ <li class="rvps6"><span class="rvts15">Ecosystem (Realm, Biome, EFG) - </span><span class="rvts35">Classification of realm, biome, and EFG that is the subject of the value estimate based on the SEEA-EA Ecosystem Type Reference Classification based on the IUCN Global Ecosystem Typology (Keith et al., 2020, Table 3.2).&nbsp;</span></li>
+ <li class="rvps6"><span class="rvts15">Protected Status - Adapted from the existing classifications of protection status in the Philippines (NIPAS Act 1992; E-NIPAS Act 2018) and internationally (https://www.iucn.org/theme/protected-areas/about/protected-area-categories)</span></li>
+ <li class="rvps6"><span class="rvts15">Scale - </span><span class="rvts35">Text description of the scale of the study site over which the ecosystem that produces the service is measured. The scale is categorized into: local (municipal/provincial/state); sub-national (regional); national; or multi-country.</span></li>
+ <li class="rvps6"><span class="rvts15">Service (Ecosystem Service, Ecosystem Subservice) - </span><span class="rvts35">Classification of the ecosystem service that is the subject of the value estimate based on the SEEA-EA Reference List of Selected Ecosystem Service (Table 6.3 of the UN-SEEA-EA: Final Draft (v.5 Feb. 2021)</span></li>
+ <li class="rvps6"><span class="rvts15">Site Attribute - </span><span class="rvts35">Significant attributes of the study site(s) described in terms of environmental amenities which can include "access to clean air or clean water, or the quality of any other environmental good that may reduce adverse health effects for residents or increase their economic welfare. Environmental goods are typically non-market goods, including clean air, clean water, landscape, green transport infrastructure (footpaths, cycleways, greenways, etc.), public parks, urban parks, rivers, mountains, forests, and beaches." Field, Barry C.; Field, Martha K. (2017). Environmental Economics, An Introduction (7 ed.). McGraw-Hill. p. 145-147. ISBN 978-0-07-802189-3.</span></li>
+ <li class="rvps6"><span class="rvts15">Unit - </span><span class="rvts35">Refers to the spatial unit of the reported monetary value (s) ( e.g., per hectare, per km2, per acre, total area, per kilometer, per mile, total length) or the temporal unit of the reported monetary value (e.g., per visit, per day, per month, per year, present value over multiple years) or a combination of spatial and temporal units (e.g., per hectare per year, per household per year).</span></li>
+ <li class="rvps6"><span class="rvts15">Value Type - </span><span class="rvts35">Type of value generated by the study, e.g., a point estimate - annual mean, annual median, a range, a net present value, capital/stock value, marginal value, an annualized value, a one time payment or WTP value, or aggregate or total economic value.</span></li>
+</ol>
+<p class="rvps6"><span class="rvts15"></span><br/><span class="rvts15">Country</span></p>
+<p class="rvps6"><span class="rvts15">All studies are conducted in a specific location. This vocabulary holds information about the countries and its relevant information for the study.</span><br/><span class="rvts15"><br/></span></p>
+<p class="rvps6"><img width="646" height="371" alt="" src="lib/NewItem37.png"></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15">1. New. Click “new” to add a country. This will open a popup window which provides a form for inputs as shown below. For WHO Region and currency, if it does not contain the desired value, click the new button beside it to add the value. After filling up the form, click Save to save changes, otherwise, cancel.</span></p>
+<p class="rvps6"><img width="632" height="363" alt="" src="lib/NewItem36.png"></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15">2. Add Button. Click this button to add new (GDP per year) information for a particular country. A popup window will appear. Refer to images below. Labeled as (1), this serves as form to get the GDP data while (2) is the display for entries that will be added once save. After filling up values in the form (1), click Add Info. Data will be added to list to be added. Add another entry or click save to add all entries from the list (2). Click save to finally add the list. Click cancel otherwise.</span></p>
+<p class="rvps6"><img width="629" height="590" alt="" src="lib/NewItem35.png"><span class="rvts15"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><img width="611" height="598" alt="" src="lib/NewItem34.png"></p>
+<p class="rvps6"><span class="rvts15">3. Edit Country. This will let user to edit site entry</span></p>
+<p class="rvps6"><span class="rvts15">4. Delete Country. This will let user to delete site entry</span></p>
+<p class="rvps6"><img width="641" height="368" alt="" src="lib/NewItem33.png"></p>
+<p class="rvps6"><span class="rvts15">5. Collapse/Uncollapse Country GDP per year detail.</span></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><img width="606" height="348" alt="" src="lib/NewItem32.png"></p>
+<p class="rvps6"><span class="rvts15"><br/></span></p>
+<p class="rvps6"><span class="rvts15">6. Edit Country's GDP entry. This will let user to edit country's gdp entry</span></p>
+<p class="rvps6"><span class="rvts15">7. Delete Country's GDP Entry. This will let user to delete country's gdp entry</span></p>
+<p class="rvps6"><span class="rvts15"></span><br/><span class="rvts15"></span><br/><span class="rvts15"><br/></span></p>
+<p class="rvps6"><span class="rvts15">Climate</span></p>
+<p class="rvps6"><img width="581" height="200" alt="" src="lib/NewItem31.png"></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15">Click New to add a new Climate. This will open a popup window which provides a form for inputs as shown below. Refer to images below. Labeled as (1), this serves as form to get climate input data while (2) is the display for entries that will be added once save. After filling up values in the form (1), click Add climate Class. Data will be added to list to be added. Add another entry or click save to add all entries from the list (2) Click save to finally add the list. Click cancel otherwise.</span></p>
+<p class="rvps6"><img width="629" height="527" alt="" src="lib/NewItem30.png"></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15"></span><br/><span class="rvts15"><br/></span></p>
+<p class="rvps6"><span class="rvts15"></span><br/><span class="rvts15"><br/></span></p>
+<p class="rvps6"><span class="rvts15">Protected Area</span></p>
+<p class="rvps6"><img width="581" height="280" alt="" src="lib/NewItem29.png"></p>
+<p class="rvps6"><span class="rvts15"></span><br/><span class="rvts15">1. Edit PA Entry. This will let users edit PA entries. (refer to image above)</span></p>
+<p class="rvps6"><span class="rvts15">2. Delete PA Entry. This will let user to delete PA entry&nbsp; (refer to image above)</span></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15">Click New to add a new protected area. This will open a popup window which provides a form for inputs as shown below. Refer to images below. Labeled as (1), this serves as a form to get climate input data while (2) is the display for entries that will be added once saved. After filling up values in the form (1), click Add Protected Area to List. Data will be added to the list to be added. Add another entry or click save to add all entries from the list (2). Click save to finally add the list. Click cancel otherwise.</span></p>
+<p class="rvps6"><img width="621" height="608" alt="" src="lib/NewItem28.png"></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15">Beneficial Unit</span></p>
+<p class="rvps6"><img width="581" height="277" alt="" src="lib/NewItem27.png"></p>
+<p class="rvps6"><span class="rvts15"></span><br/><span class="rvts15">1. Edit Beneficial Unit Entry. This will let the user edit the Beneficiary Unit&nbsp; entry. (refer to image above)</span></p>
+<p class="rvps6"><span class="rvts15">2. Delete Beneficial Unit&nbsp; Entry. This will let user to delete Beneficial Unit&nbsp; entry&nbsp; (refer to image above)</span></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15">Click New to add a new Beneficial Unit entry. This will open a popup window which provides a form for inputs as shown below. Fill up the form and click save once finish. Click cancel, otherwise.</span></p>
+<p class="rvps6"><img width="621" height="575" alt="" src="lib/NewItem26.png"></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15"></span><br/><span class="rvts15"></span><br/><span class="rvts15"><br/></span></p>
+<p class="rvps6"><span class="rvts15">Currency</span></p>
+<p class="rvps6"><img width="581" height="280" alt="" src="lib/NewItem25.png"></p>
+<p class="rvps6"><span class="rvts15"></span><br/><span class="rvts15">1. Edit Currency Entry. This will let the user edit the Currency entry. (refer to image above)</span></p>
+<p class="rvps6"><span class="rvts15">2. Delete Currency Entry. This will let user delete the Currency entry&nbsp; (refer to image above)</span></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15">Click New to add a new Currency entry. This will open a popup window which provides a form for inputs as shown below. Fill up the form and click save once finished. Click cancel, otherwise.</span></p>
+<p class="rvps6"><img width="618" height="585" alt="" src="lib/NewItem24.png"></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15"></span><br/><span class="rvts15"><br/></span></p>
+<p class="rvps6"><span class="rvts15"></span><br/><span class="rvts15"><br/></span></p>
+<p class="rvps6"><span class="rvts15">Ecosystem (Realm, Biome, EFG)</span></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><img width="581" height="249" alt="" src="lib/NewItem23.png"></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15">1. New. Add a new Ecosystem. This will open a popup window which provides a form for inputs as shown below.&nbsp;</span></p>
+<p class="rvps6"><img width="629" height="610" alt="" src="lib/NewItem22.png"></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15">2. Add Multiple realms. Click this button to add multiple realm entries. A popup window will appear. Refer to images below. Labeled as (1), this serves as a form for adding input data while (2) is the display for entries that will be added once saved. After filling out values in the form (1), click Add Realm. Data will be added to list (2). Add another entry or click save to add all entries from the list (2). You may delete an entry from the list by clicking the trash can button at the right. Finally, click save to add all entries from the list. Click cancel otherwise.</span></p>
+<p class="rvps6"><img width="629" height="608" alt="" src="lib/NewItem21.png"><span class="rvts15">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15">3. Add Multiple Biomes. Click this button to add multiple Biome entry. A popup window will appear. Refer to images below. Labeled as (1), this serves as form for adding input data while (2) is the display for entries that will be added once save. After filling out values in the form (1), click Add Biome. Data will be added to list (2). Add another entry or click save to add all entries from the list (2). You may delete an entry from the list by clicking the trash can button at the right. Finally, click save to add all entries from the list. Click cancel otherwise.</span></p>
+<p class="rvps6"><img width="629" height="601" alt="" src="lib/NewItem20.png"></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15">3. Add Multiple EFG. Click this button to add multiple EFG entries. A popup window will appear. Refer to images below.</span><br/><span class="rvts15">Labeled as (1), this serves as a form for adding input data while (2) is the display for entries that will be added once saved. After filling out values in the form (1), click Add EFG. Data will be added to list (2). Add another entry or click save to add all entries from the list (2). You may delete an entry from the list by clicking the trash can button at the right. Finally, click save to add all entries from the list. Click cancel otherwise.</span></p>
+<p class="rvps6"><img width="533" height="510" alt="" src="lib/NewItem19.png"></p>
+<p class="rvps6"><span class="rvts18"></span><br/><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15">Ecosystem Service/Subservice</span></p>
+<p class="rvps6"><span class="rvts15">Service (Eservice, Esub Service)</span></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><img width="581" height="259" alt="" src="lib/NewItem18.png"></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15">1. New. Add a new Service. This will open a popup window which provides an input form as shown below.&nbsp;</span></p>
+<p class="rvps6"><img width="629" height="598" alt="" src="lib/NewItem17.png"></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15">2. Add Multiple Services. Click this button to add multiple Service entries. A popup window will appear. Refer to images below.</span><br/><span class="rvts15">Labeled as (1), this serves as a form for adding input data while (2) is the display for entries that will be added once saved. After filling out values in the form (1), click Add Service. Data will be added to list (2). Add another entry or &nbsp; click save to add all entries from the list (2). You may delete an entry from the list by clicking the trash can button at the right. Finally, click save to add all entries from the list. Click cancel otherwise.</span></p>
+<p class="rvps6"><img width="629" height="505" alt="" src="lib/NewItem16.png"><span class="rvts15">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15">3. Add Multiple Esubservice. Click this button to add multiple Biome entries. A popup window will appear. Refer to images below.</span><br/><span class="rvts15">Labeled as (1), this serves as a form for adding input data while (2) is the display for entries that will be added once saved. After filling out values in the form (1), click Add Esubservice. Data will be added to list (2). Add another entry or &nbsp; &nbsp;click save to add all entries from the list (2). You may delete an entry from the list by clicking the trash can button at the right. Finally, click save to add all entries from the list. Click cancel otherwise.</span></p>
+<p class="rvps6"><img width="629" height="602" alt="" src="lib/NewItem15.png"></p>
+<p class="rvps6"><span class="rvts15"></span><br/><span class="rvts15"><br/></span></p>
+<p class="rvps6"><span class="rvts15"></span><br/><span class="rvts15">Valuation Method</span></p>
+<p class="rvps6"><img width="581" height="241" alt="" src="lib/NewItem14.png"></p>
+<p class="rvps6"><span class="rvts15"></span><br/><span class="rvts15">1. Edit method Entry. This will let the user edit the method entry. (refer to image above)</span></p>
+<p class="rvps6"><span class="rvts15">2. Delete method Entry. This will let user to delete method entry&nbsp; (refer to image above)</span></p>
+<p class="rvps6"><span class="rvts18"><br/></span></p>
+<p class="rvps6"><span class="rvts15">Click the New button to add a new method entry. This will open a popup window which provides a form for inputs as shown below. Fill up the form and click save once finished. Click cancel, otherwise.</span></p>
+<p class="rvps6"><img width="597" height="568" alt="" src="lib/NewItem13.png"></p>
+<p class="rvps6"><span class="rvts18"></span><span class="rvts6"></span></p>
+<p class="rvps4" style="clear: both;"><span class="rvts12">Created with the Personal Edition of HelpNDoc: </span><a class="rvts13" href="https://www.helpndoc.com/step-by-step-guides/how-to-generate-an-encrypted-password-protected-pdf-document/">Protect Your Confidential PDFs with These Simple Security Measures</a></p>
+
+            </div>
+            
+            <div id="topic_footer"><div id="topic_footer_content">Copyright &copy; &lt;Dates&gt; by &lt;Authors&gt;. All Rights Reserved.</div></div>
+        </div>  <!-- /#topic-content -->
+    </article>
+
+    <footer></footer>
+
+  </div>  <!-- /#main -->
+
+  <div class="mask" data-toggle="sm-nav-expanded"></div>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="hndModal" tabindex="-1" role="dialog" aria-labelledby="hndModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="hndModalLabel"></h4>
+        </div>
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary modal-btn-close" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Splitter -->
+  <div id="hnd-splitter" style="left: 350px"></div>  
+
+  <!-- Scripts -->
+  <script src="vendors/jquery-3.5.1/jquery.min.js"></script>
+  <script src="vendors/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+  <script src="vendors/bootstrap-3.4.1/js/ie10-viewport-bug-workaround.js"></script>
+  <script src="vendors/markjs-8.11.1/jquery.mark.min.js"></script>
+  <script src="vendors/uri-1.19.11/uri.min.js"></script>
+  <script src="vendors/imageMapResizer-1.0.10/imageMapResizer.min.js"></script>
+  <script src="vendors/headroom-0.11.0/headroom.min.js"></script>
+  <script src="vendors/jstree-3.3.10/jstree.min.js"></script>  
+  <script src="vendors/interactjs-1.9.22/interact.min.js"></script>  
+
+  <!-- HelpNDoc scripts -->
+  <script src="js/polyfill.object.min.js"></script>
+  <script src="_translations.js"></script>
+  <script src="js/hndsd.min.js"></script>
+  <script src="js/hndse.min.js"></script>
+  <script src="js/app.min.js"></script>
+
+  <!-- Init script -->
+  <script>
+    $(function() {
+      // Create the app
+      var app = new Hnd.App({
+        searchEngineMinChars: 3
+      });
+      // Update translations
+      hnd_ut(app);
+	  // Instanciate imageMapResizer
+	  imageMapResize();
+	  // Custom JS
+	  
+      // Boot the app
+      app.Boot();
+    });
+  </script>
+
+
+
+</body>
+
+</html>
+

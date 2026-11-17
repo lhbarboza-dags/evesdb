@@ -68,7 +68,7 @@ public class MailService {
 		if (!enabled)
 			return;
 		if (blank(user) || blank(pass))
-			log.warn("Mail: SMTP_USERNAME and/or SMTP_PASSWORD are not set; sending e-mail will fail. See deploy/README-FREE.md B7.");
+			log.warn("Mail: SMTP_USERNAME (or SMTP_USER) and/or SMTP_PASSWORD (or SMTP_KEY) are not set; sending e-mail will fail. See deploy/README-FREE.md B7.");
 		int port = port();
 		if (port == 25 || port == 465 || port == 587)
 			log.warn("Mail: port {} is blocked on Render's free plan; use SMTP_PORT=2525 (Brevo). See deploy/README-FREE.md B7.", port);

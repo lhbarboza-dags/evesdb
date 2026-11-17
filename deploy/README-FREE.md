@@ -180,6 +180,7 @@ All three are built in; they only need accounts and keys. Add the variables unde
    SMTP_PASSWORD=<Brevo SMTP key>
    MAIL_FROM=no-reply@<yourdomain>
    ```
+   `SMTP_USER` and `SMTP_KEY` are accepted as alternative names for `SMTP_USERNAME` and `SMTP_PASSWORD`.
 6. Contact-form messages go to the users whose contact categories are set to accepted (User admin). Make sure at least one admin has them.
 
 **B. reCAPTCHA v2 ("I'm not a robot").**

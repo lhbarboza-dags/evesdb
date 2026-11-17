@@ -46,6 +46,10 @@ The backend runs with `JPA_DDL_AUTO=validate`. If the database does not match th
 
 > **Database name:** the old `persistence.xml` points at a database named `sibol-eves`. The local database used during this migration is called `evesdb`, so set the URL to whichever one you use.
 
+## Free hosting
+
+For a free single-container deployment (Spring Boot serving the API and the React app, plus a managed Postgres), see [deploy/README-FREE.md](deploy/README-FREE.md). It covers Northflank Sandbox (recommended) and, as a fallback, Render + Neon. A self-managed VM setup with Caddy is in [deploy/README-DEPLOY.md](deploy/README-DEPLOY.md).
+
 ## Local development (without Docker)
 
 ```bash

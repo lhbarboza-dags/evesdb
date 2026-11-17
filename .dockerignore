@@ -1,0 +1,12 @@
+# Context for the root (single-container) Dockerfile
+**/node_modules
+**/target
+**/dist
+.env
+.env.*
+!.env.example
+!.env.prod.example
+docs
+deploy
+scripts
+.git

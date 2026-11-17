@@ -9,3 +9,5 @@ frontend/dist/
 .vscode/
 .env.prod
 backend/src/main/resources/static/
+.neon
+.env.neon

@@ -12,14 +12,19 @@ import org.springframework.core.env.ConfigurableEnvironment;
  * Render). Without this the app silently tried localhost:5432 and died with a 200-line stack trace.
  * Registered in META-INF/spring.factories.
  */
-public class RequiredEnvCheck implements EnvironmentPostProcessor {
+public class RequiredEnvCheck implements EnvironmentPostProcessor, org.springframework.core.Ordered {
+
+	@Override
+	public int getOrder() {
+		return org.springframework.core.Ordered.LOWEST_PRECEDENCE; // after DatabaseUrlEnvironmentPostProcessor
+	}
 
 	private static final String HELP = " See deploy/README-FREE.md (section B3) for the full list of environment variables.";
 
 	@Override
 	public void postProcessEnvironment(ConfigurableEnvironment env, SpringApplication app) {
 		List<String> missing = new ArrayList<>();
-		check(env, "spring.datasource.url", "SPRING_DATASOURCE_URL (JDBC URL, e.g. jdbc:postgresql://<host>/<db>?sslmode=require)", missing);
+		check(env, "spring.datasource.url", "SPRING_DATASOURCE_URL (jdbc:postgresql://<host>/<db>?sslmode=require) or DATABASE_URL (Neon's postgresql://... connection string)", missing);
 		check(env, "spring.datasource.username", "SPRING_DATASOURCE_USERNAME", missing);
 		check(env, "app.legacy-aes.secret", "LEGACY_AES_SECRET", missing);
 		check(env, "app.legacy-aes.salt", "LEGACY_AES_SALT", missing);

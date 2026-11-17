@@ -102,11 +102,19 @@ Render deploys from https://github.com/lhbarboza-dags/evesdb (branch `main`). Ma
    - **Root directory:** leave empty;
    - **Language / runtime:** Docker (Render detects the root `Dockerfile`);
    - **Instance type:** Free.
-3. **Environment variables.** Convert the Neon string to JDBC: drop the `user:password@` part and `&channel_binding=require` (the app's driver doesn't support that option), and keep `sslmode=require`.
+3. **Environment variables.** Service → **Environment** → **Add from .env** lets you paste them all at once. For the database, use **one** of the two options below.
+   - **Option A (simplest): paste Neon's connection string as is.** No conversion is needed: the app turns it into JDBC itself, drops `channel_binding`, and handles a pooled (`-pooler`) host with `prepareThreshold=0`. The direct (non-pooled) string is still the best choice.
+     ```
+     DATABASE_URL=postgresql://<user>:<password>@<host>/<db>?sslmode=require&channel_binding=require
+     ```
+   - **Option B: JDBC variables** (e.g. the first three lines of `.env.neon`):
+     ```
+     SPRING_DATASOURCE_URL=jdbc:postgresql://<host>/<db>?sslmode=require
+     SPRING_DATASOURCE_USERNAME=<user>
+     SPRING_DATASOURCE_PASSWORD=<password>
+     ```
+   If both are set, `SPRING_DATASOURCE_URL` wins. The rest of the variables are the same either way:
    ```
-   SPRING_DATASOURCE_URL=jdbc:postgresql://<host>/<db>?sslmode=require
-   SPRING_DATASOURCE_USERNAME=<user>
-   SPRING_DATASOURCE_PASSWORD=<password>
    SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE=0
    SPRING_DATASOURCE_HIKARI_IDLE_TIMEOUT=60000
    SPRING_DATASOURCE_HIKARI_MAX_LIFETIME=240000
@@ -142,10 +150,10 @@ Open `https://sibol-eves.onrender.com`:
 ### B6. Troubleshooting
 | Symptom in the logs | Fix |
 |---|---|
-| `Missing required configuration: SPRING_DATASOURCE_URL …` or `Connection to localhost:5432 refused` | The environment variables aren't set on the Render service. Service → **Environment** → **Add from .env** → paste `.env.neon` plus the other variables (B3) → **Save, rebuild, and deploy**. Names must match exactly, with no quotes around values. |
+| `Missing required configuration: SPRING_DATASOURCE_URL … or DATABASE_URL …` or `Connection to localhost:5432 refused` | No database URL reached the Render service. Service → **Environment** → add `DATABASE_URL` (Neon's string, Option A) **or** `SPRING_DATASOURCE_URL` (JDBC, Option B) → **Save, rebuild, and deploy**. Names must match exactly, with no quotes around values. If other names (e.g. `LEGACY_AES_SECRET`) are also listed, those are missing too. |
 | `Schema-validation: missing table …` | The restore into Neon didn't complete. Re-run step B1.4 and check the count. |
 | `FATAL: password authentication failed` / `SSL` errors | Check the user and password variables and that the URL has `?sslmode=require` but **no** `channel_binding`. |
-| `prepared statement "S_1" already exists` | You used the *pooled* Neon host (`-pooler` in the name). Use the direct one. |
+| `prepared statement "S_1" already exists` | A *pooled* Neon host (`-pooler`) was given as a JDBC `SPRING_DATASOURCE_URL`. Use the direct host, add `&prepareThreshold=0`, or switch to Option A (`DATABASE_URL`), which handles it. |
 | `OutOfMemoryError` / instance restarts | Add `JAVA_TOOL_OPTIONS=-XX:MaxRAMPercentage=60 -XX:+UseSerialGC -Xss512k -XX:TieredStopAtLevel=1`. |
 | Deploy times out before the app starts | The free 0.1 CPU is slow to start Spring Boot. Redeploy once; if it keeps failing, the paid Starter instance (more CPU) is the fix. |
 | Site slow on first visit | Normal on the free plan: it sleeps after 15 min without visitors and takes ~1 min to wake. |

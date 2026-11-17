@@ -1,1 +1,3 @@
-org.springframework.boot.env.EnvironmentPostProcessor=org.sibol.eves.config.RequiredEnvCheck
+org.springframework.boot.env.EnvironmentPostProcessor=\
+org.sibol.eves.config.DatabaseUrlEnvironmentPostProcessor,\
+org.sibol.eves.config.RequiredEnvCheck

@@ -1,6 +1,7 @@
 package org.sibol.eves.config;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.Map;
 
@@ -58,5 +59,23 @@ class DatabaseUrlEnvironmentPostProcessorTest {
 		pp.postProcessEnvironment(env, null);
 		assertThat(env.getProperty("spring.datasource.url")).isEqualTo("jdbc:postgresql://ep-a.neon.tech/db?sslmode=require");
 		assertThat(env.getProperty("spring.datasource.password")).isEqualTo("p");
+	}
+
+	@Test
+	void toleratesQuotesAndPsqlPrefix() {
+		String expected = "jdbc:postgresql://ep-a.neon.tech/db?sslmode=require";
+		for (String in : new String[] { "  \"postgresql://u:p@ep-a.neon.tech/db?sslmode=require\" ",
+				"'postgresql://u:p@ep-a.neon.tech/db?sslmode=require'",
+				"psql 'postgresql://u:p@ep-a.neon.tech/db?sslmode=require&channel_binding=require'" })
+			assertThat(DatabaseUrlEnvironmentPostProcessor.convert(in, null, null).get("spring.datasource.url")).isEqualTo(expected);
+	}
+
+	@Test
+	void missingFirstLetterGivesClearMessageWithoutSecrets() {
+		assertThatThrownBy(() -> DatabaseUrlEnvironmentPostProcessor.convert("ostgresql://u:topsecret@h/db", null, null))
+				.isInstanceOf(IllegalStateException.class)
+				.hasMessageContaining("starts with 'ostgresql://'")
+				.hasMessageContaining("missing first character")
+				.hasMessageNotContaining("topsecret");
 	}
 }

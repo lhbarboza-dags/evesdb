@@ -49,10 +49,15 @@ public class DatabaseUrlEnvironmentPostProcessor implements EnvironmentPostProce
 
 	/** postgres[ql]://user:pass@host[:port]/db?params → spring.datasource.url / username / password. */
 	static Map<String, Object> convert(String url, String explicitUser, String explicitPassword) {
-		URI u = URI.create(url.trim());
-		String scheme = u.getScheme() == null ? "" : u.getScheme().toLowerCase();
-		if (!scheme.equals("postgres") && !scheme.equals("postgresql"))
-			throw new IllegalStateException("DATABASE_URL must start with postgresql:// (got scheme '" + scheme + "')");
+		String clean = clean(url);
+		String lower = clean.toLowerCase();
+		if (!lower.startsWith("postgresql://") && !lower.startsWith("postgres://")) {
+			int i = clean.indexOf("://"); // show only the scheme part, never credentials
+			String start = i < 0 ? "(no '://' found)" : "'" + clean.substring(0, Math.min(i, 20)) + "://'";
+			throw new IllegalStateException("DATABASE_URL must start with postgresql:// but starts with " + start
+					+ ". Check the value for a missing first character, extra quotes or a 'psql' prefix.");
+		}
+		URI u = URI.create(clean);
 		String db = u.getPath() == null ? "" : u.getPath().replaceFirst("^/", "");
 		String sslmode = "require";
 		if (u.getRawQuery() != null)
@@ -78,6 +83,17 @@ public class DatabaseUrlEnvironmentPostProcessor implements EnvironmentPostProce
 				props.put("spring.datasource.password", decode(up[1]));
 		}
 		return props;
+	}
+
+	/** Removes common copy/paste artefacts: whitespace, surrounding quotes, Neon's "psql '…'" snippet prefix. */
+	static String clean(String url) {
+		String v = url.trim();
+		if (v.regionMatches(true, 0, "psql ", 0, 5))
+			v = v.substring(5).trim();
+		while (v.length() >= 2 && (v.charAt(0) == '\'' || v.charAt(0) == '"')
+				&& v.charAt(v.length() - 1) == v.charAt(0))
+			v = v.substring(1, v.length() - 1).trim();
+		return v;
 	}
 
 	private static String safe(ConfigurableEnvironment env, String key) {

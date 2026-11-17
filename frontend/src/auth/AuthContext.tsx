@@ -13,6 +13,17 @@ interface AuthState {
 
 const Ctx = createContext<AuthState | null>(null);
 
+const ANONYMOUS: Me = { authenticated: false, userId: null, email: null, firstName: null, lastName: null, role: null, roleName: null };
+
+/**
+ * Drops cached data of the previous user but keeps the ['me'] query itself: queryClient.clear() would detach the
+ * AuthProvider's observer, so the new login state would not reach the UI (login then bounced back to /login).
+ */
+function resetCacheExceptMe(qc: ReturnType<typeof useQueryClient>, me: Me) {
+  qc.removeQueries({ predicate: (q) => q.queryKey[0] !== 'me' });
+  qc.setQueryData<Me>(['me'], me);
+}
+
 /** Replaces the ZK session attribute "userCredential" (+ banner.zul / index.zul 10-minute keep-alive timers). */
 export function AuthProvider({ children }: { children: ReactNode }) {
   const qc = useQueryClient();
@@ -25,15 +36,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     onUnauthorized(() => {
-      qc.setQueryData<Me>(['me'], { authenticated: false, userId: null, email: null, firstName: null, lastName: null, role: null, roleName: null });
+      qc.setQueryData<Me>(['me'], ANONYMOUS);
     });
   }, [qc]);
 
   const login = useCallback(
     async (email: string, password: string) => {
       const m = await api.post<Me>('/api/auth/login', { email, password });
-      qc.clear();
-      qc.setQueryData(['me'], m);
+      resetCacheExceptMe(qc, m);
       return m;
     },
     [qc],
@@ -41,8 +51,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = useCallback(async () => {
     await api.post('/api/auth/logout');
-    qc.clear();
-    await qc.invalidateQueries({ queryKey: ['me'] });
+    resetCacheExceptMe(qc, ANONYMOUS);
   }, [qc]);
 
   const value = useMemo<AuthState>(

@@ -142,6 +142,7 @@ Open `https://sibol-eves.onrender.com`:
 ### B6. Troubleshooting
 | Symptom in the logs | Fix |
 |---|---|
+| `Missing required configuration: SPRING_DATASOURCE_URL …` or `Connection to localhost:5432 refused` | The environment variables aren't set on the Render service. Service → **Environment** → **Add from .env** → paste `.env.neon` plus the other variables (B3) → **Save, rebuild, and deploy**. Names must match exactly, with no quotes around values. |
 | `Schema-validation: missing table …` | The restore into Neon didn't complete. Re-run step B1.4 and check the count. |
 | `FATAL: password authentication failed` / `SSL` errors | Check the user and password variables and that the URL has `?sslmode=require` but **no** `channel_binding`. |
 | `prepared statement "S_1" already exists` | You used the *pooled* Neon host (`-pooler` in the name). Use the direct one. |

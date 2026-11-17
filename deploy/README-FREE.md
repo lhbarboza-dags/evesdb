@@ -96,7 +96,7 @@ Render deploys from https://github.com/lhbarboza-dags/evesdb (branch `main`). Ma
 ### B3. Render: create the web service (~15 min + build)
 1. Sign up at https://dashboard.render.com/register with **GitHub**, and allow Render to access the `lhbarboza-dags/evesdb` repository.
 2. **New → Web Service**, then pick `lhbarboza-dags/evesdb`:
-   - **Name:** `sibol-eves` (this becomes `https://sibol-eves.onrender.com`; pick another name if it's taken);
+   - **Name:** e.g. `evesdb` (this becomes `https://evesdb.onrender.com`; Render shows the real URL at the top of the service page). Use **your** URL everywhere below;
    - **Region:** Singapore;
    - **Branch:** `main`;
    - **Root directory:** leave empty;
@@ -123,7 +123,7 @@ Render deploys from https://github.com/lhbarboza-dags/evesdb (branch `main`). Ma
    LEGACY_AES_SECRET=<SECRET_KEY constant from the old AES256.java>
    LEGACY_AES_SALT=<SALT constant from the old AES256.java>
    APP_AUTH_UPGRADE_HASH=false
-   APP_BASE_URL=https://sibol-eves.onrender.com
+   APP_BASE_URL=https://evesdb.onrender.com
    SESSION_COOKIE_SECURE=true
    MAIL_ENABLED=false
    RECAPTCHA_ENABLED=false
@@ -136,7 +136,7 @@ Render deploys from https://github.com/lhbarboza-dags/evesdb (branch `main`). Ma
    - startup ends with `Started SibolEvesApplication`. On 0.1 CPU the first start can take a few minutes.
 
 ### B4. Check it
-Open `https://sibol-eves.onrender.com`:
+Open `https://evesdb.onrender.com`:
 - `/actuator/health` returns `{"status":"UP"}`;
 - log in with an existing account;
 - **Database** shows 99 studies (pending + approved);
@@ -144,7 +144,7 @@ Open `https://sibol-eves.onrender.com`:
 
 ### B5. Custom domain (optional)
 1. Render → service → **Settings → Custom Domains → Add Custom Domain** → `eves.<your-domain>`.
-2. At your registrar: a **CNAME** record `eves` → `sibol-eves.onrender.com`. Render issues the TLS certificate automatically.
+2. At your registrar: a **CNAME** record `eves` → `evesdb.onrender.com`. Render issues the TLS certificate automatically.
 3. Change `APP_BASE_URL` to `https://eves.<your-domain>`; saving the variable redeploys the service.
 
 ### B6. Troubleshooting
@@ -156,6 +156,9 @@ Open `https://sibol-eves.onrender.com`:
 | `prepared statement "S_1" already exists` | A *pooled* Neon host (`-pooler`) was given as a JDBC `SPRING_DATASOURCE_URL`. Use the direct host, add `&prepareThreshold=0`, or switch to Option A (`DATABASE_URL`), which handles it. |
 | `OutOfMemoryError` / instance restarts | Add `JAVA_TOOL_OPTIONS=-XX:MaxRAMPercentage=60 -XX:+UseSerialGC -Xss512k -XX:TieredStopAtLevel=1`. |
 | Deploy times out before the app starts | The free 0.1 CPU is slow to start Spring Boot. Redeploy once; if it keeps failing, the paid Starter instance (more CPU) is the fix. |
+| `Mail failed … no password specified?` / `Mail: SMTP_USERNAME and/or SMTP_PASSWORD are not set` | `SMTP_USERNAME`/`SMTP_PASSWORD` didn't reach the service. Set them to Brevo's SMTP **login** (`…@smtp-brevo.com`) and SMTP **key** (`xsmtpsib-…`), not the account password or API key. |
+| `535 Authentication failed` | Wrong Brevo login or key; generate a new SMTP key and paste it again. |
+| `550`/`sender … not valid` | `MAIL_FROM` isn't a verified Brevo sender (B7.A step 2-3). |
 | `Mail failed … connect timed out` / "The e-mail could not be sent" | Render's free plan blocks SMTP ports 25, 465 and 587. Use `SMTP_PORT=2525` with Brevo (B7.A). |
 | Map tab says "daily limit" | The app-side `MAPS_DAILY_LIMIT` was reached (B7.C). It resets at midnight Pacific time or when the app restarts. |
 | Site slow on first visit | Normal on the free plan: it sleeps after 15 min without visitors and takes ~1 min to wake. |
@@ -181,7 +184,7 @@ All three are built in; they only need accounts and keys. Add the variables unde
 
 **B. reCAPTCHA v2 ("I'm not a robot").**
 1. https://www.google.com/recaptcha/admin/create → type **Challenge (v2) → "I'm not a robot" Checkbox**.
-2. Domains: `sibol-eves.onrender.com`, your own domain (if any), `localhost`. Submit and copy the **site key** and **secret key**.
+2. Domains: `evesdb.onrender.com`, your own domain (if any), `localhost`. Submit and copy the **site key** and **secret key**.
 3. Render variables: `RECAPTCHA_ENABLED=true`, `RECAPTCHA_SITE_KEY=<site key>`, `RECAPTCHA_SECRET=<secret key>`.
 4. Don't reuse the keys from the old ZK code; create new ones.
 
@@ -189,7 +192,7 @@ All three are built in; they only need accounts and keys. Add the variables unde
 1. https://console.cloud.google.com → create project `sibol-eves` → **Billing**: link a billing account.
 2. **APIs & Services → Library**: enable **Maps JavaScript API** (only this one).
 3. **Google Maps Platform → Keys & Credentials → Create API key**, then restrict it:
-   - Application restriction **Websites**: `https://sibol-eves.onrender.com/*`, `https://<yourdomain>/*`, `http://localhost:8088/*`;
+   - Application restriction **Websites**: `https://evesdb.onrender.com/*`, `https://<yourdomain>/*`, `http://localhost:8088/*`;
    - API restriction: **Maps JavaScript API**.
 4. **Hard cap (Google side):** **Google Maps Platform → Quotas → Maps JavaScript API → Map loads per day → 300** (≈ 9,000/month, under the free allowance). Over the cap, Google refuses the map instead of billing.
 5. **Alert:** **Billing → Budgets & alerts → Create budget** of $1, alerts at 50/90/100 %. (A budget only warns; step 4 is the stop.)

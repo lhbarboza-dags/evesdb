@@ -48,7 +48,7 @@ app:
     site-key: ${RECAPTCHA_SITE_KEY:}
     secret: ${RECAPTCHA_SECRET:}
   maps:
-    api-key: ${GOOGLE_MAPS_API_KEY:}
+    api-key: ${GOOGLE_MAPS_API_KEY:${GOOGLE_MAPS_KEY:${MAPS_API_KEY:${GOOGLE_API_KEY:${VITE_GOOGLE_MAPS_API_KEY:}}}}}   # alternative names accepted
     daily-limit: ${MAPS_DAILY_LIMIT:250}   # app-side map loads/day; keep below the Google Cloud quota (B7)
   legacy-aes:
     secret: ${LEGACY_AES_SECRET}

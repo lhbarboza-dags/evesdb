@@ -70,9 +70,11 @@ export function SiteMapPanel({ ids }: { ids: number[] }) {
           </APIProvider>
         ) : (
           <Alert severity="info">
-            {key
-              ? 'The map has reached its daily limit; please try again tomorrow. Pick a site in the list to open it in Google Maps.'
-              : 'Google Maps is not configured (set GOOGLE_MAPS_API_KEY).'}{' '}
+            {!key
+              ? 'Google Maps is not configured (set GOOGLE_MAPS_API_KEY).'
+              : load.isError
+                ? 'The map could not be loaded; please refresh the page. Pick a site in the list to open it in Google Maps.'
+                : 'The map has reached its daily limit; please try again tomorrow. Pick a site in the list to open it in Google Maps.'}{' '}
             {openSelected}
           </Alert>
         )}

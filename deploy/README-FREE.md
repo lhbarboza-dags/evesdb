@@ -160,6 +160,8 @@ Open `https://evesdb.onrender.com`:
 | `535 Authentication failed` | Wrong Brevo login or key; generate a new SMTP key and paste it again. |
 | `550`/`sender … not valid` | `MAIL_FROM` isn't a verified Brevo sender (B7.A step 2-3). |
 | `Mail failed … connect timed out` / "The e-mail could not be sent" | Render's free plan blocks SMTP ports 25, 465 and 587. Use `SMTP_PORT=2525` with Brevo (B7.A). |
+| Map tab says "Google Maps is not configured" | The Render log shows `Maps: api key=EMPTY`: set `GOOGLE_MAPS_API_KEY` (B7.C step 6) and redeploy. |
+| Map area shows "This page can't load Google Maps correctly" | The key's website restriction must include `https://evesdb.onrender.com/*`, the Maps JavaScript API must be enabled, and billing must be linked (B7.C). The browser console names the exact error (e.g. `RefererNotAllowedMapError`). |
 | Map tab says "daily limit" | The app-side `MAPS_DAILY_LIMIT` was reached (B7.C). It resets at midnight Pacific time or when the app restarts. |
 | Site slow on first visit | Normal on the free plan: it sleeps after 15 min without visitors and takes ~1 min to wake. |
 
@@ -197,7 +199,7 @@ All three are built in; they only need accounts and keys. Add the variables unde
    - API restriction: **Maps JavaScript API**.
 4. **Hard cap (Google side):** **Google Maps Platform → Quotas → Maps JavaScript API → Map loads per day → 300** (≈ 9,000/month, under the free allowance). Over the cap, Google refuses the map instead of billing.
 5. **Alert:** **Billing → Budgets & alerts → Create budget** of $1, alerts at 50/90/100 %. (A budget only warns; step 4 is the stop.)
-6. Render variables: `GOOGLE_MAPS_API_KEY=<key>` and `MAPS_DAILY_LIMIT=250`. The app counts map loads per day and, past 250, shows the site list with "Open in Google Maps" links instead of Google's error page. This counter restarts when the app restarts, so the Google quota stays the real limit.
+6. Render variables: `GOOGLE_MAPS_API_KEY=<key>` and `MAPS_DAILY_LIMIT=250`. The app counts map loads per day and, past 250, shows the site list with "Open in Google Maps" links instead of Google's error page. This counter restarts when the app restarts, so the Google quota stays the real limit. The names `GOOGLE_MAPS_KEY`, `MAPS_API_KEY`, `GOOGLE_API_KEY` and `VITE_GOOGLE_MAPS_API_KEY` are also accepted. After the redeploy, the Render log shows `Maps: api key=set`; `EMPTY` means the variable name or value is wrong.
 
 ## C. After go-live (either platform)
 - **Smoke test:** landing page, login with an existing account, search count equals the source DB, Excel export, map tab, `/actuator/health` returns `{"status":"UP"}`.

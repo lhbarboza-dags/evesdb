@@ -156,7 +156,44 @@ Open `https://sibol-eves.onrender.com`:
 | `prepared statement "S_1" already exists` | A *pooled* Neon host (`-pooler`) was given as a JDBC `SPRING_DATASOURCE_URL`. Use the direct host, add `&prepareThreshold=0`, or switch to Option A (`DATABASE_URL`), which handles it. |
 | `OutOfMemoryError` / instance restarts | Add `JAVA_TOOL_OPTIONS=-XX:MaxRAMPercentage=60 -XX:+UseSerialGC -Xss512k -XX:TieredStopAtLevel=1`. |
 | Deploy times out before the app starts | The free 0.1 CPU is slow to start Spring Boot. Redeploy once; if it keeps failing, the paid Starter instance (more CPU) is the fix. |
+| `Mail failed … connect timed out` / "The e-mail could not be sent" | Render's free plan blocks SMTP ports 25, 465 and 587. Use `SMTP_PORT=2525` with Brevo (B7.A). |
+| Map tab says "daily limit" | The app-side `MAPS_DAILY_LIMIT` was reached (B7.C). It resets at midnight Pacific time or when the app restarts. |
 | Site slow on first visit | Normal on the free plan: it sleeps after 15 min without visitors and takes ~1 min to wake. |
+
+### B7. E-mail, reCAPTCHA and Google Maps
+All three are built in; they only need accounts and keys. Add the variables under **Environment**, then **Save, rebuild, and deploy**. Never commit the keys.
+
+**A. E-mail (Brevo, free 300 mails/day, sent from your domain).** Render's free plan blocks the usual SMTP ports (25/465/587), so Gmail SMTP can't work there; Brevo also listens on **2525**.
+1. Sign up at https://www.brevo.com (free plan). New accounts may need a short activation review before they can send.
+2. **Senders, Domains & Dedicated IPs → Domains → Add a domain**: enter your domain, add the DNS records Brevo shows (Brevo code TXT, DKIM, DMARC) at your domain registrar, then click **Authenticate**. DNS changes can take up to a few hours.
+3. **Senders → Add a sender**, e.g. `no-reply@<yourdomain>`.
+4. **SMTP & API → SMTP → Generate a new SMTP key.** Note the **Login** shown there (`…@smtp-brevo.com`) and the key; the key is shown once.
+5. Render variables:
+   ```
+   MAIL_ENABLED=true
+   SMTP_HOST=smtp-relay.brevo.com
+   SMTP_PORT=2525
+   SMTP_USERNAME=<Brevo SMTP login>
+   SMTP_PASSWORD=<Brevo SMTP key>
+   MAIL_FROM=no-reply@<yourdomain>
+   ```
+6. Contact-form messages go to the users whose contact categories are set to accepted (User admin). Make sure at least one admin has them.
+
+**B. reCAPTCHA v2 ("I'm not a robot").**
+1. https://www.google.com/recaptcha/admin/create → type **Challenge (v2) → "I'm not a robot" Checkbox**.
+2. Domains: `sibol-eves.onrender.com`, your own domain (if any), `localhost`. Submit and copy the **site key** and **secret key**.
+3. Render variables: `RECAPTCHA_ENABLED=true`, `RECAPTCHA_SITE_KEY=<site key>`, `RECAPTCHA_SECRET=<secret key>`.
+4. Don't reuse the keys from the old ZK code; create new ones.
+
+**C. Google Maps, with a safeguard against charges.** Google requires a billing account (card), but normal use stays inside the free monthly allowance (about 10,000 map loads). Two limits keep it there:
+1. https://console.cloud.google.com → create project `sibol-eves` → **Billing**: link a billing account.
+2. **APIs & Services → Library**: enable **Maps JavaScript API** (only this one).
+3. **Google Maps Platform → Keys & Credentials → Create API key**, then restrict it:
+   - Application restriction **Websites**: `https://sibol-eves.onrender.com/*`, `https://<yourdomain>/*`, `http://localhost:8088/*`;
+   - API restriction: **Maps JavaScript API**.
+4. **Hard cap (Google side):** **Google Maps Platform → Quotas → Maps JavaScript API → Map loads per day → 300** (≈ 9,000/month, under the free allowance). Over the cap, Google refuses the map instead of billing.
+5. **Alert:** **Billing → Budgets & alerts → Create budget** of $1, alerts at 50/90/100 %. (A budget only warns; step 4 is the stop.)
+6. Render variables: `GOOGLE_MAPS_API_KEY=<key>` and `MAPS_DAILY_LIMIT=250`. The app counts map loads per day and, past 250, shows the site list with "Open in Google Maps" links instead of Google's error page. This counter restarts when the app restarts, so the Google quota stays the real limit.
 
 ## C. After go-live (either platform)
 - **Smoke test:** landing page, login with an existing account, search count equals the source DB, Excel export, map tab, `/actuator/health` returns `{"status":"UP"}`.

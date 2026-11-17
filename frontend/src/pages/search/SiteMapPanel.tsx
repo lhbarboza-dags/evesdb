@@ -17,9 +17,22 @@ export function SiteMapPanel({ ids }: { ids: number[] }) {
   const [selected, setSelected] = useState<MapSite | null>(null);
   const sites = useMemo(() => data ?? [], [data]);
   const located = sites.filter((s) => s.lat != null && s.lng != null);
+  const key = cfg.data?.mapsApiKey;
+  // App-side daily cap (MapsLoadLimiter) in front of the Google Cloud quota: ask once per visit to the Map tab.
+  const load = useQuery({
+    queryKey: ['maps-load'],
+    queryFn: () => api.post<{ allowed: boolean }>('/api/maps/load'),
+    enabled: !!key,
+    staleTime: Infinity,
+    gcTime: Infinity,
+    retry: false,
+  });
 
-  if (isLoading || !cfg.data) return <CircularProgress />;
-  const key = cfg.data.mapsApiKey;
+  if (isLoading || !cfg.data || (key && load.isLoading)) return <CircularProgress />;
+  const mapAllowed = !!key && load.data?.allowed === true;
+  const openSelected = selected && selected.lat != null && (
+    <Link href={`https://www.google.com/maps?q=${selected.lat},${selected.lng}`} target="_blank" rel="noopener">Open the selected site in Google Maps</Link>
+  );
 
   return (
     <Grid container spacing={2}>
@@ -39,7 +52,7 @@ export function SiteMapPanel({ ids }: { ids: number[] }) {
         {sites.length > PAGE && <Pagination sx={{ mt: 1 }} count={Math.ceil(sites.length / PAGE)} page={page} onChange={(_, p) => setPage(p)} size="small" />}
       </Grid>
       <Grid item xs={12} md={8}>
-        {key ? (
+        {mapAllowed ? (
           <APIProvider apiKey={key}>
             <Box sx={{ height: { xs: 360, md: 560 }, borderRadius: 1, overflow: 'hidden' }}>
               <Map defaultZoom={3} defaultCenter={DEFAULT_CENTER} mapTypeId="hybrid" gestureHandling="greedy">
@@ -57,9 +70,10 @@ export function SiteMapPanel({ ids }: { ids: number[] }) {
           </APIProvider>
         ) : (
           <Alert severity="info">
-            Google Maps is not configured (set GOOGLE_MAPS_API_KEY). {selected && selected.lat != null && (
-              <Link href={`https://www.google.com/maps?q=${selected.lat},${selected.lng}`} target="_blank" rel="noopener">Open the selected site in Google Maps</Link>
-            )}
+            {key
+              ? 'The map has reached its daily limit; please try again tomorrow. Pick a site in the list to open it in Google Maps.'
+              : 'Google Maps is not configured (set GOOGLE_MAPS_API_KEY).'}{' '}
+            {openSelected}
           </Alert>
         )}
       </Grid>

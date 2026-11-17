@@ -19,7 +19,8 @@ public record AppProperties(
 
 	public record Recaptcha(boolean enabled, String siteKey, String secret) {}
 
-	public record Maps(String apiKey) {}
+	/** dailyLimit: map loads per day the app allows before showing the list-only fallback (0 = no app-side limit). */
+	public record Maps(String apiKey, int dailyLimit) {}
 
 	/** Key material of the legacy org.sibol.eves.app.AES256 password cipher. */
 	public record LegacyAes(String secret, String salt) {}

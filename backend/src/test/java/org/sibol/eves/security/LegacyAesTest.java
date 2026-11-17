@@ -37,7 +37,7 @@ class LegacyAesTest {
 
 	static AppProperties props(boolean upgrade) {
 		return new AppProperties("http://x", new AppProperties.Mail("a@b.c", false),
-				new AppProperties.Recaptcha(false, "", ""), new AppProperties.Maps(""),
+				new AppProperties.Recaptcha(false, "", ""), new AppProperties.Maps("", 0),
 				new AppProperties.LegacyAes(SECRET, SALT), new AppProperties.Auth(upgrade));
 	}
 

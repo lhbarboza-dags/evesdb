@@ -6,6 +6,7 @@ server:
       cookie:
         http-only: true
         same-site: lax
+        secure: ${SESSION_COOKIE_SECURE:false}   # true behind HTTPS (deploy/compose.prod.yml)
   forward-headers-strategy: framework
 
 spring:

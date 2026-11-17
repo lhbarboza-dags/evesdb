@@ -1,0 +1,72 @@
+# Production stack for one VM (Oracle Cloud Always Free ARM, or any Linux host with internet).
+# Run it through ./prod.sh, which passes ../.env.prod for both ${...} interpolation and the containers' settings:
+#   ./prod.sh up -d --build
+#
+#   Internet :80/:443 ─▶ caddy (HTTPS) ─▶ frontend (nginx: SPA + /api proxy) ─▶ backend (Spring Boot) ─▶ db (Postgres)
+# Only caddy publishes ports. The database is never reachable from outside.
+name: sibol-eves
+
+x-logging: &logging
+  driver: json-file
+  options: { max-size: "10m", max-file: "3" }
+
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: evesdb
+      POSTGRES_USER: ${POSTGRES_USER:-sibol}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env.prod}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d evesdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+    logging: *logging
+
+  backend:
+    # The VM has internet, so the self-contained build (Maven inside Docker) is used here.
+    build: { context: ../backend, dockerfile: Dockerfile.multistage }
+    env_file: ../.env.prod
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/evesdb
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-sibol}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      SESSION_COOKIE_SECURE: "true"
+    depends_on:
+      db: { condition: service_healthy }
+    restart: unless-stopped
+    logging: *logging
+
+  frontend:
+    build: { context: ../frontend, dockerfile: Dockerfile.multistage }
+    depends_on:
+      backend: { condition: service_healthy }
+    restart: unless-stopped
+    logging: *logging
+
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      DOMAIN: ${DOMAIN:?set DOMAIN in .env.prod}
+      ACME_EMAIL: ${ACME_EMAIL:-}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - frontend
+    restart: unless-stopped
+    logging: *logging
+
+volumes:
+  pgdata:
+  caddy_data:
+  caddy_config:

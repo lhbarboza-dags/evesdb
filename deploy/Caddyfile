@@ -1,0 +1,30 @@
+# Automatic HTTPS (Let's Encrypt) for $DOMAIN once its DNS A record points at this server.
+{
+	email {$ACME_EMAIL}
+}
+
+{$DOMAIN} {
+	encode zstd gzip
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		X-Frame-Options "SAMEORIGIN"
+		-Server
+	}
+	# Health check for uptime monitoring goes straight to Spring Boot; every other actuator path stays private.
+	handle /actuator/health {
+		reverse_proxy backend:8080
+	}
+	handle /actuator/* {
+		respond 404
+	}
+	handle {
+		reverse_proxy frontend:80
+	}
+}
+
+# www.<domain> → <domain>
+www.{$DOMAIN} {
+	redir https://{$DOMAIN}{uri} permanent
+}

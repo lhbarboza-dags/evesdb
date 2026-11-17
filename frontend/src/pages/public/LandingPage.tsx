@@ -49,9 +49,23 @@ export function LandingPage() {
       <section className="relative overflow-hidden border-b border-solid border-emerald-100 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 text-[#0f3822]">
         <div aria-hidden className="pointer-events-none absolute -left-24 -top-24 h-80 w-80 rounded-full bg-emerald-200/40 blur-3xl" />
         <div aria-hidden className="pointer-events-none absolute -bottom-32 right-0 h-96 w-96 rounded-full bg-teal-200/30 blur-3xl" />
-        <div className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
-          {/* right-aligned banner content (no hero image) */}
-          <div className="ml-auto flex max-w-4xl flex-col items-end text-right">
+        <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-12 lg:px-8 lg:py-20">
+          {/* SIBOL artwork: left on desktop, below the text on phones/tablets */}
+          <div className="order-2 lg:order-1 lg:col-span-5">
+            <img
+              src="/img/sibol-artwork.webp"
+              srcSet="/img/sibol-artwork-600.webp 600w, /img/sibol-artwork.webp 1200w"
+              sizes="(min-width: 1024px) 40vw, 100vw"
+              width={1200}
+              height={456}
+              loading="eager"
+              fetchPriority="high"
+              alt="SIBOL artwork: giant clam, myna, pangolin, sailfish and tarsier, with logos of DENR, BFAR, USAID, RTI International, CCI, Forest Foundation Philippines, REECS and ZSL"
+              className="block h-auto w-full rounded-2xl shadow-xl ring-1 ring-emerald-900/10"
+            />
+          </div>
+          {/* right-aligned banner content */}
+          <div className="order-1 flex flex-col items-end text-right lg:order-2 lg:col-span-7">
             <p className="m-0 inline-flex items-center gap-2 self-end rounded-full border border-solid border-emerald-200 bg-white/70 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-emerald-900 backdrop-blur-md">
               Ecosystem services valuation database
             </p>
